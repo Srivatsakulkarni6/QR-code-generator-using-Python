@@ -1,0 +1,54 @@
+#importing the modules
+import pyqrcode #importing qr
+from tkinter import * #graphical user interface use3d to display
+from tkinter import messagebox # to display the label
+import tkinter.ttk as ttk #using shortcut
+from PIL import Image, ImageTk#to display the image
+from os import getcwd
+#code begins
+win = Tk()#func used to store the variable win
+win.title(" QR Code Generator | HackersBrain")#title
+win.config(background="#4db8ff")#background
+
+
+def generate():#func use to  generate the image
+    def sv():
+        msg = messagebox.showinfo(title="Image Saved.",
+                                  message=f"Image Saved Successfully !!!"
+                                          f"\n\n{pt}/{file_name}.png")#used to save the imag
+        exit()
+    pt = getcwd()#os commands poving the error problem,returns current working directory of process
+    text = entry1.get()#accessing in the textbox
+    qr = pyqrcode.create(text)#above text converted into the qr code
+    file_name = "sanuzankushri"#file name/imag name it saves in the png format
+    name = file_name + '.png'#saves in png format
+#saved image info
+    qr.png(name, scale=10)#geometry
+    image = Image.open(name)
+    image = image.resize((400, 400))
+    image = ImageTk.PhotoImage(image)
+    win.imagelabel.config(image=image)
+    win.imagelabel.photo = image
+    sav = ttk.Button(win, text="Save QR", command=sv)
+    sav.grid(row=3, column=1, padx=3, pady=3)
+
+#these r all the widgets which display in the output
+text = ttk.Label(win, text="Enter text or Link : ")
+text.grid(row=0, column=0, padx=3, pady=3)
+
+entry1 = ttk.Entry(win, width=40)
+entry1.grid(row=0, column=1, padx=3, pady=3)
+
+button = ttk.Button(win, text="Generate", command=generate)
+button.grid(row=1, column=1, padx=3, pady=3)
+
+show_qr = ttk.Label(win, text=" QR Code : ")
+show_qr.grid(row=1, column=0, padx=3, pady=3)
+
+show_qr = ttk.Label(win, text=" HackersBrain ")
+show_qr.grid(row=0, column=2, padx=3, pady=3)
+
+win.imagelabel = ttk.Label(win, background="#6699ff")
+win.imagelabel.grid(row=2, column=0, padx=3, pady=3, columnspan=3)
+
+win.mainloop()#window should display continuosly until we terminate it manually
